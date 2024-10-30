@@ -1,0 +1,11 @@
+{
+  "name": "pushuppruebasunitarias",
+  "version": "1.0.0",
+  "description": "Sistema de Control de Teleférico",
+  "main": "Teleferico.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
