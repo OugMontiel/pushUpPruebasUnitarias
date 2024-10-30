@@ -1,7 +1,7 @@
 const { Usuario } = require("./Usuario");
 const { Cabina } = require("./Cabina");
 
-export class Teleferico {
+class Teleferico {
   constructor() {
     this.cabinas = [];
     this.usuarios = [];
@@ -117,3 +117,5 @@ export class Teleferico {
     return "Cabina llena.";
   } // Agregar Pasajero a Cabina: Un método que permita agregar un pasajero a una cabina
 }
+
+module.exports = { Teleferico };

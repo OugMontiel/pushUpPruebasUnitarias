@@ -1,5 +1,6 @@
 const { Usuario } = require("./Usuario");
 const { Cabina } = require("./Cabina");
+const { Teleferico } = require("./Teleférico");
 
 describe("Sistema de Control de Teleférico", () => {
   // tests para toda la calse usuarios
@@ -90,4 +91,88 @@ describe("Sistema de Control de Teleférico", () => {
     expect(cabina.getPasajeros()).toEqual([]);
   });
 
+  // tests para toda la clase teleferico
+  let teleferico;
+
+  beforeEach(() => {
+    teleferico = new Teleferico();
+  });
+
+  test('debería crear una nueva cabina', () => {
+    teleferico.crearCabina('1', 4);
+    const cabinas = teleferico.getCabinas();
+    expect(cabinas.length).toBe(1);
+    expect(cabinas[0].id).toBe('1');
+    expect(cabinas[0].capacidad).toBe(4);
+  });
+
+  test('debería eliminar una cabina', () => {
+    teleferico.crearCabina('1', 4);
+    teleferico.eliminarCabina('1');
+    const cabinas = teleferico.getCabinas();
+    expect(cabinas.length).toBe(0);
+  });
+
+  test('debería iniciar una cabina', () => {
+    teleferico.crearCabina('1', 4);
+    teleferico.iniciarCabina('1');
+    expect(teleferico.getCabinas()[0].estado).toBe('en movimiento'); // Asegúrate de que el método mover cambie el estado
+  });
+
+  test('debería detener una cabina', () => {
+    teleferico.crearCabina('1', 4);
+    teleferico.iniciarCabina('1');
+    teleferico.detenerCabina('1');
+    expect(teleferico.getCabinas()[0].estado).toBe('detenida'); // Asegúrate de que el método detener cambie el estado
+  });
+
+  test('debería crear un nuevo usuario', () => {
+    const usuario = teleferico.crearUsuario('1', 'Juan', 25);
+    const usuarios = teleferico.getUsuarios();
+    expect(usuarios.length).toBe(1);
+    expect(usuarios[0].id).toBe('1');
+    expect(usuarios[0].nombre).toBe('Juan');
+  });
+
+  test('debería eliminar un usuario', () => {
+    teleferico.crearUsuario('1', 'Juan', 25);
+    teleferico.eliminarUsuario('1');
+    const usuarios = teleferico.getUsuarios();
+    expect(usuarios.length).toBe(0);
+  });
+
+  test('debería obtener usuarios disponibles', () => {
+    teleferico.crearUsuario('1', 'Juan', 25);
+    teleferico.crearUsuario('2', 'Maria', 30);
+    teleferico.crearCabina('1', 2);
+    teleferico.agregarPasajeroACabina('1', '1');
+    const disponibles = teleferico.obtenerUsuariosDisponibles();
+    expect(disponibles).toEqual(['2']);
+  });
+
+  test('debería agregar un pasajero a una cabina', () => {
+    teleferico.crearCabina('1', 2);
+    teleferico.crearUsuario('1', 'Juan', 25);
+    teleferico.agregarPasajeroACabina('1', '1');
+    expect(teleferico.getCabinas()[0].pasajeros.length).toBe(1);
+    expect(teleferico.getCabinas()[0].pasajeros[0].nombre).toBe('Juan');
+  });
+
+  test('no debería agregar un pasajero a una cabina llena', () => {
+    teleferico.crearCabina('1', 1);
+    teleferico.crearUsuario('1', 'Juan', 25);
+    teleferico.crearUsuario('2', 'Maria', 30);
+    teleferico.agregarPasajeroACabina('1', '1');
+    const resultado = teleferico.agregarPasajeroACabina('2', '1');
+    expect(resultado).toBe('Cabina llena.');
+  });
+
+  test('debería listar pasajeros de una cabina', () => {
+    teleferico.crearCabina('1', 2);
+    teleferico.crearUsuario('1', 'Juan', 25);
+    teleferico.agregarPasajeroACabina('1', '1');
+    const pasajeros = teleferico.getListarPasajerosCabina('1');
+    expect(pasajeros.length).toBe(1);
+    expect(pasajeros[0].nombre).toBe('Juan');
+  });
 });
