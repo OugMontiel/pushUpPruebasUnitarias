@@ -1,4 +1,4 @@
-export class Cabina {
+class Cabina {
   constructor(id, capacidad) {
     this.id = id;
     this.capacidad = capacidad;
@@ -48,3 +48,5 @@ export class Cabina {
     this.pasajeros = [];
   }
 }
+
+module.exports = { Cabina };

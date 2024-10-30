@@ -1,4 +1,4 @@
-export class Usuario {
+class Usuario {
   constructor(id, nombre, edad) {
     this.id = id;
     this.nombre = nombre;
@@ -15,3 +15,5 @@ export class Usuario {
     return this.id;
   }
 }
+
+module.exports = { Usuario };
